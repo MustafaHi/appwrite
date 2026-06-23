@@ -99,7 +99,9 @@ Http::init()
     ->inject('team')
     ->inject('apiKey')
     ->inject('authorization')
-    ->action(function (Route $route, Request $request, Database $dbForPlatform, Database $dbForProject, AuditContext $auditContext, Document $project, User $user, ?Document $session, array $servers, string $mode, Document $team, ?Key $apiKey, Authorization $authorization) {
+    ->inject('impersonatorUser')
+    ->inject('targetUser')
+    ->action(function (Route $route, Request $request, Database $dbForPlatform, Database $dbForProject, AuditContext $auditContext, Document $project, User $user, ?Document $session, array $servers, string $mode, Document $team, ?Key $apiKey, Authorization $authorization, Document $impersonatorUser, User $targetUser) {
 
         /**
          * Handle user authentication and session validation.
@@ -410,6 +412,8 @@ Http::init()
             }
         }
 
+        $rolesSource = $impersonatorUser->isEmpty() ? $user : $targetUser;
+
         // Steps 7-9: Access Control - Method, Namespace and Scope Validation
         $method = $route->getLabel('sdk', false);
 
@@ -425,7 +429,7 @@ Http::init()
             if (
                 array_key_exists($namespace, $project->getAttribute('services', []))
                 && ! $project->getAttribute('services', [])[$namespace]
-                && ! ($user->isPrivileged($authorization->getRoles()) || $user->isKey($authorization->getRoles()))
+                && ! ($rolesSource->isPrivileged($authorization->getRoles()) || $rolesSource->isKey($authorization->getRoles()))
             ) {
                 throw new Exception(Exception::GENERAL_SERVICE_DISABLED);
             }
@@ -435,7 +439,7 @@ Http::init()
         if (
             array_key_exists('rest', $project->getAttribute('apis', []))
             && ! $project->getAttribute('apis', [])['rest']
-            && ! ($user->isPrivileged($authorization->getRoles()) || $user->isKey($authorization->getRoles()))
+            && ! ($rolesSource->isPrivileged($authorization->getRoles()) || $rolesSource->isKey($authorization->getRoles()))
         ) {
             throw new AppwriteException(AppwriteException::GENERAL_API_DISABLED);
         }
@@ -447,12 +451,12 @@ Http::init()
         }
 
         // Step 10: Check if user is blocked
-        if ($user->getAttribute('status') === false) { // Account is blocked
+        if ($rolesSource->getAttribute('status') === false) { // Account is blocked
             throw new Exception(Exception::USER_BLOCKED);
         }
 
         // Step 11: Verify password status
-        if ($user->getAttribute('reset')) {
+        if ($rolesSource->getAttribute('reset')) {
             throw new Exception(Exception::USER_PASSWORD_RESET_REQUIRED);
         }
 

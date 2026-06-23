@@ -867,14 +867,17 @@ $server->onOpen(function (int $connection, SwooleRequest $request) use ($server,
 
         $timelimit = $connectionContainer->get('timelimit');
         $user = $connectionContainer->get('user'); /** @var User $user */
+        $impersonatorUser = $connectionContainer->get('impersonatorUser'); /** @var Document $impersonatorUser */
+        $targetUser = $connectionContainer->get('targetUser'); /** @var User $targetUser */
         $logUser = $user;
 
         $apis = $project->getAttribute('apis', []);
         // Websocket is what to check, but realtime is checked too for backwards compatibility
         $websocketEnabled = $apis['websocket'] ?? $apis['realtime'] ?? true;
+        $effectiveUser = $impersonatorUser->isEmpty() ? $user : $targetUser;
         if (
             !$websocketEnabled
-            && !($user->isPrivileged($authorization->getRoles()) || $user->isKey($authorization->getRoles()))
+            && !($effectiveUser->isPrivileged($authorization->getRoles()) || $effectiveUser->isKey($authorization->getRoles()))
         ) {
             throw new AppwriteException(AppwriteException::GENERAL_API_DISABLED);
         }
