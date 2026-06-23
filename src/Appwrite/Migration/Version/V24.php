@@ -116,11 +116,6 @@ class V24 extends Migration
                             Console::warning('Failed to create attributes "' . \implode(', ', $attributes) . "\" in collection {$id}: {$th->getMessage()}");
                         }
 
-                        try {
-                            $this->createIndexFromCollection($this->dbForProject, $id, '_key_accessedAt');
-                        } catch (Throwable $th) {
-                            Console::warning("Failed to create index \"_key_accessedAt\" in collection {$id}: {$th->getMessage()}");
-                        }
                     }
                     $this->dbForProject->purgeCachedCollection($id);
                     break;
