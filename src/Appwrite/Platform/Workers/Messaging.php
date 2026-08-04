@@ -37,6 +37,7 @@ use Utopia\Messaging\Adapter\SMS\Telesign;
 use Utopia\Messaging\Adapter\SMS\TextMagic;
 use Utopia\Messaging\Adapter\SMS\Twilio;
 use Utopia\Messaging\Adapter\SMS\Vonage;
+use Utopia\Messaging\Adapter\SMS\GoWA;
 use Utopia\Messaging\Messages\Email;
 use Utopia\Messaging\Messages\Email\Attachment;
 use Utopia\Messaging\Messages\Push;
@@ -866,6 +867,11 @@ class Messaging extends Action
                 $credentials['senderId'] ?? '',
                 $credentials['apiKey'] ?? '',
             ),
+            'gowa' => new GoWA(
+                $credentials['url'] ?? '',
+                $credentials['token'] ?? '',
+                $credentials['from'] ?? '',
+            ),
             default => null
         };
 
@@ -1223,6 +1229,11 @@ class Messaging extends Action
                 'inforu' => [
                     'senderId' => $user,
                     'apiKey' => $password,
+                ],
+                'gowa' => [
+                    'url' => $dsn->getParam('url'),
+                    'token' => $dsn->getParam('token'),
+                    'from' => $from,
                 ],
                 default => null
             },
