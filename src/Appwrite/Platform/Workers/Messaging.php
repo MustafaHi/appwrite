@@ -865,6 +865,7 @@ class Messaging extends Action
     protected function getSmsAdapter(Document $provider): ?SMSAdapter
     {
         $credentials = $provider->getAttribute('credentials');
+        $options = $provider->getAttribute('options');
 
         $adapter = match ($provider->getAttribute('provider')) {
             'mock' => (new Mock('username', 'password'))->setEndpoint('http://request-catcher-sms:5000/'),
@@ -904,7 +905,7 @@ class Messaging extends Action
             'gowa' => new GoWA(
                 $credentials['url'] ?? '',
                 $credentials['token'] ?? '',
-                $credentials['from'] ?? '',
+                $options['from'] ?? '',
             ),
             default => null
         };
@@ -1267,7 +1268,6 @@ class Messaging extends Action
                 'gowa' => [
                     'url' => $dsn->getParam('url'),
                     'token' => $dsn->getParam('token'),
-                    'from' => $from,
                 ],
                 default => null
             },

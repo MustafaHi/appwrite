@@ -40,6 +40,14 @@
     "repositories": [
         {
             "type": "vcs",
+            "url": "https://github.com/mustafahi/appwrite-utopia-php-monorepo"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/MustafaHi/appwrite-utopia-php-messaging"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/utopia-php/auth"
         },
         {
@@ -86,7 +94,7 @@
         "utopia-php/locale": "0.8.*",
         "utopia-php/lock": "0.2.*",
         "utopia-php/logger": "0.8.*",
-        "utopia-php/messaging": "^2.0",
+        "utopia-php/messaging": "dev-main as 2.0.x-dev",
         "utopia-php/migration": "^2.0.0",
         "utopia-php/platform": "^1.0@RC",
         "utopia-php/pools": "2.*",

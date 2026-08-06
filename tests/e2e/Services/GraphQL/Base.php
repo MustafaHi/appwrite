@@ -287,6 +287,7 @@ trait Base
     public const string CREATE_TEXTMAGIC_PROVIDER = 'create_textmagic_provider';
     public const string CREATE_MSG91_PROVIDER = 'create_msg91_provider';
     public const string CREATE_VONAGE_PROVIDER = 'create_vonage_provider';
+    public const string CREATE_GOWA_PROVIDER = 'create_gowa_provider';
     public const string CREATE_FCM_PROVIDER = 'create_fcm_provider';
     public const string CREATE_APNS_PROVIDER = 'create_apns_provider';
     public const string LIST_PROVIDERS = 'list_providers';
@@ -300,6 +301,7 @@ trait Base
     public const string UPDATE_TEXTMAGIC_PROVIDER = 'update_textmagic_provider';
     public const string UPDATE_MSG91_PROVIDER = 'update_msg91_provider';
     public const string UPDATE_VONAGE_PROVIDER = 'update_vonage_provider';
+    public const string UPDATE_GOWA_PROVIDER = 'update_gowa_provider';
     public const string UPDATE_FCM_PROVIDER = 'update_fcm_provider';
     public const string UPDATE_APNS_PROVIDER = 'update_apns_provider';
     public const string DELETE_PROVIDER = 'delete_provider';
@@ -2488,6 +2490,16 @@ trait Base
                         enabled
                     }
                 }';
+            case self::CREATE_GOWA_PROVIDER:
+                return 'mutation createGowaProvider($providerId: String!, $name: String!, $from: String!, $url: String!, $token: String!) {
+                    messagingCreateGowaProvider(providerId: $providerId, name: $name, from: $from, url: $url, token: $token) {
+                        _id
+                        name
+                        provider
+                        type
+                        enabled
+                    }
+                }';
             case self::CREATE_FCM_PROVIDER:
                 return 'mutation createFcmProvider($providerId: String!, $name: String!, $serviceAccountJSON: Json) {
                     messagingCreateFcmProvider(providerId: $providerId, name: $name, serviceAccountJSON: $serviceAccountJSON) {
@@ -2615,6 +2627,16 @@ trait Base
             case self::UPDATE_VONAGE_PROVIDER:
                 return 'mutation updateVonageProvider($providerId: String!, $name: String!, $apiKey: String!, $apiSecret: String!) {
                     messagingUpdateVonageProvider(providerId: $providerId, name: $name, apiKey: $apiKey, apiSecret: $apiSecret) {
+                        _id
+                        name
+                        provider
+                        type
+                        enabled
+                    }
+                }';
+            case self::UPDATE_GOWA_PROVIDER:
+                return 'mutation updateGowaProvider($providerId: String!, $name: String!, $url: String!, $token: String!, $from: String!) {
+                    messagingUpdateGowaProvider(providerId: $providerId, name: $name, url: $url, token: $token, from: $from) {
                         _id
                         name
                         provider

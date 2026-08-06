@@ -108,6 +108,13 @@ trait MessagingBase
                 'apiSecret' => 'my-apisecret',
                 'from' => '+123456789',
             ],
+            'gowa' => [
+                'providerId' => ID::unique(),
+                'name' => 'GoWA1',
+                'from' => 'my-device-id',
+                'url' => 'https://gowap.example.com',
+                'token' => 'my-token',
+            ],
             'fcm' => [
                 'providerId' => ID::unique(),
                 'name' => 'FCM1',
@@ -201,6 +208,11 @@ trait MessagingBase
                 'name' => 'Vonage2',
                 'apiKey' => 'my-apikey',
                 'apiSecret' => 'my-apisecret',
+            ],
+            'gowa' => [
+                'name' => 'GoWA2',
+                'url' => 'https://gowap.example.com',
+                'token' => 'my-token',
             ],
             'fcm' => [
                 'name' => 'FCM2',
@@ -817,6 +829,13 @@ trait MessagingBase
                 'apiSecret' => 'my-apisecret',
                 'from' => '+123456789',
             ],
+            'gowa' => [
+                'providerId' => ID::unique(),
+                'name' => 'GoWA1',
+                'from' => 'my-device-id',
+                'url' => 'https://gowap.example.com',
+                'token' => 'my-token',
+            ],
             'fcm' => [
                 'providerId' => ID::unique(),
                 'name' => 'FCM1',
@@ -905,6 +924,11 @@ trait MessagingBase
                 'name' => 'Vonage2',
                 'apiKey' => 'my-apikey',
                 'apiSecret' => 'my-apisecret',
+            ],
+            'gowa' => [
+                'name' => 'GoWA2',
+                'url' => 'https://gowap.example.com',
+                'token' => 'my-token',
             ],
             'fcm' => [
                 'name' => 'FCM2',
